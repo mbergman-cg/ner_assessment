@@ -3,11 +3,14 @@ from src.processing.PreProcessor import PreProcessor
 from src.modelling.LSTMModel import LSTMModel
 
 
-def train_model(training_data: str):
-    parser = InputParser(training_data)
-    sentences, ner_tags = parser.parse_data()
+def train_model(training_data: str, validation_data: str):
+    train_parser = InputParser(training_data)
+    sentences, ner_tags = train_parser.parse_data()
 
-    pre_processor = PreProcessor(sentences, ner_tags)
+    validation_parser = InputParser(validation_data)
+    val_sentences, val_ner_tags = validation_parser.parse_data()
+
+    pre_processor = PreProcessor(sentences, ner_tags, val_sentences, val_ner_tags)
     pre_processor.pre_process_data()
 
     lstm_model = LSTMModel(
@@ -25,4 +28,5 @@ def train_model(training_data: str):
 
 if __name__ == "__main__":
     DATA = "../../conll2003/eng.train"
-    model = train_model(DATA)
+    VAL_DATA = "../../conll2003/eng.testa"
+    model = train_model(DATA, VAL_DATA)

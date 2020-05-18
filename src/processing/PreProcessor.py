@@ -80,7 +80,7 @@ class PreProcessor:
 
     @property
     def num_unique_word_tokens(self):
-        return len(self._tokenizer.word_index)
+        return len(self._tokenizer.word_index) + 1  # +1 for padding token
 
     @property
     def num_unique_label_tokens(self):
