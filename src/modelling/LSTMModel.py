@@ -25,7 +25,9 @@ class LSTMModel:
         embedding_size = 100
 
         self._model = Sequential([
-            Embedding(num_unique_word_tokens, embedding_size, input_length=max_sequence_length,
+            Embedding(input_dim=num_unique_word_tokens,
+                      output_dim=embedding_size,
+                      input_length=max_sequence_length,
                       mask_zero=True),
             Bidirectional(LSTM(50, dropout=0.1, recurrent_dropout=0.1, return_sequences=True)),
             TimeDistributed(Dense(num_unique_label_tokens + 1, activation='softmax'))
