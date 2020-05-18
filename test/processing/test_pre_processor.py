@@ -52,12 +52,23 @@ def test_pre_process_data_validation():
         ['I-PER', 'I-PER']
     ]
 
-    pre_processor = PreProcessor(in_sentences, in_tags, in_sentences, in_tags)
+    in_val_sentences = [
+        ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE',
+         'DEFEAT', '.'],
+        ['Nadim', 'unknown_name']
+    ]
+
+    in_val_tags = [
+        ['O', 'O', 'I-LOC', 'O', 'O', 'O', 'O', 'I-PER', 'O', 'O', 'O', 'O'],
+        ['I-PER', 'I-PER']
+    ]
+
+    pre_processor = PreProcessor(in_sentences, in_tags, in_val_sentences, in_val_tags)
     pre_processor.pre_process_data()
 
     expected_input_sequences = np.array([
         [2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13],
-        [14, 15, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+        [14, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
     ])
 
     expected_label_sequences = np.array([

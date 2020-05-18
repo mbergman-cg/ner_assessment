@@ -36,10 +36,12 @@ class PreProcessor:
         self._label_sequences = self._pre_process_label_sequences(self._ner_tags)
 
     def _pre_process_validation_input_sequences(self):
-        self._val_input_sequences = self._pre_process_input_sequence(self._val_sentences, validation=True)
+        self._val_input_sequences = self._pre_process_input_sequence(self._val_sentences,
+                                                                     validation=True)
 
     def _pre_process_validation_label_sequences(self):
-        self._val_label_sequences = self._pre_process_label_sequences(self._val_ner_tags, validation=True)
+        self._val_label_sequences = self._pre_process_label_sequences(self._val_ner_tags,
+                                                                      validation=True)
 
     def _pre_process_input_sequence(self, sentences, validation=False):
         if not validation:
