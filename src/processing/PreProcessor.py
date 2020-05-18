@@ -89,3 +89,7 @@ class PreProcessor:
     @property
     def max_sequence_length(self):
         return self._max_sequence_length
+
+    @property
+    def label_index_to_words_dict(self):
+        return self._label_tokenizer.index_word

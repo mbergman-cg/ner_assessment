@@ -16,9 +16,12 @@ def train_model(training_data: str, validation_data: str):
     lstm_model = LSTMModel(
         pre_processor.input_sequences,
         pre_processor.label_sequences,
+        pre_processor.val_input_sequences,
+        pre_processor.val_label_sequences,
         pre_processor.num_unique_word_tokens,
         pre_processor.num_unique_label_tokens,
-        pre_processor.max_sequence_length
+        pre_processor.max_sequence_length,
+        pre_processor.label_index_to_words_dict
     )
 
     lstm_model.train()
@@ -30,3 +33,4 @@ if __name__ == "__main__":
     DATA = "../../conll2003/eng.train"
     VAL_DATA = "../../conll2003/eng.testa"
     model = train_model(DATA, VAL_DATA)
+    classification_report = model.validate()
