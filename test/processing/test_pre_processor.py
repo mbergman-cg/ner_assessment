@@ -29,7 +29,7 @@ def test_pre_process_data_training():
         [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ])
 
-    expected_num_unique_word_tokens = 15  # Unique words + one oov token
+    expected_num_unique_word_tokens = 16  # Unique words + one oov token + padding token
 
     expected_num_unique_label_tokens = 3
 
@@ -53,13 +53,12 @@ def test_pre_process_data_validation():
     ]
 
     in_val_sentences = [
-        ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE',
-         'DEFEAT', '.'],
+        ['SOCCER', 'JAPAN', 'CHINA', 'UNKNOWN'],
         ['Nadim', 'unknown_name']
     ]
 
     in_val_tags = [
-        ['O', 'O', 'I-LOC', 'O', 'O', 'O', 'O', 'I-PER', 'O', 'O', 'O', 'O'],
+        ['O', 'I-LOC', 'I-PER', 'O'],
         ['I-PER', 'I-PER']
     ]
 
@@ -67,12 +66,12 @@ def test_pre_process_data_validation():
     pre_processor.pre_process_data()
 
     expected_input_sequences = np.array([
-        [2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13],
-        [14, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+        [2, 4, 9, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [14, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ])
 
     expected_label_sequences = np.array([
-        [1, 1, 3, 1, 1, 1, 1, 2, 1, 1, 1, 1],
+        [1, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0],
         [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ])
 
