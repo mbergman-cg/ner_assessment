@@ -43,22 +43,24 @@ class PreProcessor:
         self._val_label_sequences = self._pre_process_label_sequences(self._val_ner_tags,
                                                                       validation=True)
 
-    def _pre_process_input_sequence(self, sentences, validation=False):
+    def _pre_process_input_sequence(self, sentences: list, validation=False) -> np.ndarray:
         if not validation:
             self._tokenizer.fit_on_texts(sentences)
             self._compute_max_sequence_len(sentences)
         input_sequences = self._tokenizer.texts_to_sequences(sentences)
-        padded_input_sequences = pad_sequences(input_sequences, padding='post', maxlen=self._max_sequence_length)
+        padded_input_sequences = pad_sequences(input_sequences, padding='post',
+                                               maxlen=self._max_sequence_length)
         return np.array(padded_input_sequences)
 
-    def _pre_process_label_sequences(self, ner_tags, validation=False):
+    def _pre_process_label_sequences(self, ner_tags: list, validation: bool = False) -> np.ndarray:
         if not validation:
             self._label_tokenizer.fit_on_texts(ner_tags)
         label_sequences = self._label_tokenizer.texts_to_sequences(ner_tags)
-        padded_label_sequences = pad_sequences(label_sequences, padding='post', maxlen=self._max_sequence_length)
+        padded_label_sequences = pad_sequences(label_sequences, padding='post',
+                                               maxlen=self._max_sequence_length)
         return np.array(padded_label_sequences)
 
-    def _compute_max_sequence_len(self, input_sequences):
+    def _compute_max_sequence_len(self, input_sequences: list):
         seq_lengths = [len(seq) for seq in input_sequences]
         self._max_sequence_length = max(seq_lengths)
 

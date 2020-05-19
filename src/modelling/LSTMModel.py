@@ -31,12 +31,12 @@ class LSTMModel:
                        num_unique_word_tokens: int,
                        num_unique_label_tokens: int,
                        max_sequence_length: int):
-        embedding_size = 100
+        embedding_size = 300
 
         model_layers = [
             Embedding(input_dim=num_unique_word_tokens, output_dim=embedding_size,
                       input_length=max_sequence_length, mask_zero=True),
-            Bidirectional(LSTM(50, dropout=0.1, recurrent_dropout=0.1, return_sequences=True)),
+            Bidirectional(LSTM(150, dropout=0.5, recurrent_dropout=0.5, return_sequences=True)),
             TimeDistributed(Dense(num_unique_label_tokens + 1, activation='softmax'))
         ]
 
@@ -50,7 +50,7 @@ class LSTMModel:
                                   batch_size=50, epochs=1, verbose=1)
         print(history.history)
 
-    def validate(self) -> str:
+    def validate(self):
         model_out = self._model.predict(self._val_input_sequences)
         predictions = model_out.argmax(axis=-1)
 
@@ -58,7 +58,7 @@ class LSTMModel:
 
         print(report)
 
-    def _create_classification_report(self, predictions):
+    def _create_classification_report(self, predictions: np.ndarray) -> str:
         y_true = self._val_label_sequences.flatten()
         y_hat = predictions.flatten()
 
@@ -67,5 +67,5 @@ class LSTMModel:
 
         return classification_report(y_true_mapped, y_hat_mapped)
 
-    def _map_label_indices_to_words(self, y):
+    def _map_label_indices_to_words(self, y: np.ndarray) -> np.ndarray:
         return np.vectorize(self._label_index_to_word_map.get)(y)
