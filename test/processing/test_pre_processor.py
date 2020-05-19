@@ -1,10 +1,12 @@
 import numpy as np
+import pytest
 
 from numpy.testing import assert_array_equal
 from src.processing.PreProcessor import PreProcessor
 
 
-def test_pre_process_data_training():
+@pytest.fixture
+def input_data():
     in_sentences = [
         ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE',
          'DEFEAT', '.'],
@@ -15,6 +17,12 @@ def test_pre_process_data_training():
         ['O', 'O', 'I-LOC', 'O', 'O', 'O', 'O', 'I-PER', 'O', 'O', 'O', 'O'],
         ['I-PER', 'I-PER']
     ]
+
+    return in_sentences, in_tags
+
+
+def test_pre_process_data_training(input_data):
+    in_sentences, in_tags = input_data
 
     pre_processor = PreProcessor(in_sentences, in_tags, in_sentences, in_tags)
     pre_processor.pre_process_data()
@@ -40,17 +48,8 @@ def test_pre_process_data_training():
     assert pre_processor.num_unique_label_tokens == expected_num_unique_label_tokens
 
 
-def test_pre_process_data_validation():
-    in_sentences = [
-        ['SOCCER', '-', 'JAPAN', 'GET', 'LUCKY', 'WIN', ',', 'CHINA', 'IN', 'SURPRISE',
-         'DEFEAT', '.'],
-        ['Nadim', 'Ladki']
-    ]
-
-    in_tags = [
-        ['O', 'O', 'I-LOC', 'O', 'O', 'O', 'O', 'I-PER', 'O', 'O', 'O', 'O'],
-        ['I-PER', 'I-PER']
-    ]
+def test_pre_process_data_validation(input_data):
+    in_sentences, in_tags = input_data
 
     in_val_sentences = [
         ['SOCCER', 'JAPAN', 'CHINA', 'UNKNOWN'],
